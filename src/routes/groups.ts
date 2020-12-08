@@ -1,16 +1,32 @@
 import express = require('express');
+
+import { saveGroup, findGroups, findGroup, deleteGroup } from '../services/group-service';
+
 const router = express.Router();
 
-router.get('/', function(req, res, next) {
-  res.send(loadGroups());
+router.get('/', function(req, res) {
+  findGroups().then(groups => {
+    res.send(groups);
+  })
 });
 
-router.get('/:id', function(req, res, next) {
-    res.send({name: req.params.id});
-  });
+router.put('/', function(req, res) {
+  saveGroup(req.body);
+  res.sendStatus(204);
+  res.end();
+});
 
-function loadGroups() {
-    return [{name: '1'}, {name: '2'}]
-}
+router.get('/:id', function(req, res) {
+  findGroup(req.params.id).then(group => {
+    res.send(group);
+  })
+});
+
+
+router.delete('/:id', function(req, res) {
+  deleteGroup(req.params.id);
+  res.sendStatus(204);
+  res.end();
+});
 
 export default router;

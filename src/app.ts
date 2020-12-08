@@ -2,6 +2,7 @@ import cookieParser from 'cookie-parser';
 import express from 'express';
 import http from 'http';
 import logger from 'morgan';
+import mongoose from 'mongoose';
 import path from 'path';
 
 import groupsRouter from './routes/groups';
@@ -20,6 +21,8 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/groups', groupsRouter);
 
+mongoose.Promise = global.Promise;
+mongoose.connect("mongodb://localhost:27017/wishlist");
 
 
 
