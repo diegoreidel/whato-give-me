@@ -1,7 +1,7 @@
 import UserSchema from "../schemas/user-schema";
 
 export function saveUser(user: User): void {
-    UserSchema.findByIdAndUpdate(user, { upsert: true });
+    UserSchema.findOneAndUpdate({ email: user.email }, user, { useFindAndModify: true, upsert: true }).exec();
 }
 
 export async function findUsers(): Promise<User[]> {
