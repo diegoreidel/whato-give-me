@@ -1,6 +1,6 @@
 import express = require('express');
 
-import { findUser, findUsers, saveUser } from '../services/user-service';
+import { findUser, findUsers, saveDesire, saveUser } from '../services/user-service';
 
 const router: express.Router = express.Router();
 
@@ -18,6 +18,12 @@ router.put('/', function(req, res) {
 
 router.get('/:email', function(req, res) {
   findUser(req.params.email).then(user => {
+    res.send(user);
+  })
+});
+
+router.put('/:email/desires', function(req, res) {
+  saveDesire(req.params.email, req.body).then(user => {
     res.send(user);
   })
 });

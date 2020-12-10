@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-import GroupModel from "../schemas/group-schema";
+import GroupSchema from "../schemas/group-schema";
 import { findUser } from "./user-service";
 
 export function saveGroup(group: Group): void {
@@ -9,19 +9,19 @@ export function saveGroup(group: Group): void {
         query._id = new mongoose.mongo.ObjectID().toString();
     }
 
-    GroupModel.findOneAndUpdate(query, group, { useFindAndModify: true, upsert: true, }).exec();
+    GroupSchema.findOneAndUpdate(query, group, { useFindAndModify: true, upsert: true, }).exec();
 }
 
 export async function findGroups(): Promise<Group[]> {
-    return GroupModel.find({}).then();
+    return GroupSchema.find({}).then();
 }
 
 export async function findGroup(id: string): Promise<Group> {
-    return await GroupModel.findOne({ _id: id }).then();
+    return await GroupSchema.findOne({ _id: id }).then();
 }
 
 export function deleteGroup(id: string): void {
-    GroupModel.findOneAndDelete({ _id: id }).then();
+    GroupSchema.findOneAndDelete({ _id: id }).then();
 }
 
 export async function addUser(groupId: string, user: User): Promise<Group> {

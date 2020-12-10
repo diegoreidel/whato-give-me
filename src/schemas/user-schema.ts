@@ -5,6 +5,12 @@ const userSchema = new Schema({
         type: String,
         unique: true
     },
+    desires: [
+        {
+            ref: 'Desire',
+            type: Schema.Types.ObjectId,
+        }
+    ],
     name: String,
     description: String
 })
