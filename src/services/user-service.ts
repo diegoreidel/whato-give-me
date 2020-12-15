@@ -3,8 +3,9 @@ import mongoose from 'mongoose'
 import DesireSchema from '../schemas/desire-schema';
 import UserSchema from '../schemas/user-schema';
 
-export function saveUser(user: User): void {
-    UserSchema.findOneAndUpdate({ email: user.email }, user, { useFindAndModify: true, upsert: true }).exec();
+export async function saveUser(user: User): Promise<User> {
+    await UserSchema.findOneAndUpdate({ email: user.email }, user, { useFindAndModify: true, upsert: true });
+    return findUser(user.email);
 }
 
 export async function findUsers(): Promise<User[]> {

@@ -4,6 +4,7 @@ import http from 'http';
 import logger from 'morgan';
 import mongoose from 'mongoose';
 import path from 'path';
+import cors from 'cors';
 
 import groupsRouter from './routes/groups';
 import indexRouter from './routes/index';
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

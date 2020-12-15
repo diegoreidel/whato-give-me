@@ -1,6 +1,6 @@
 interface Group {
-    _id: string
+    _id: string,
     name: string,
-    description: string
+    description: string,
     users: User[]
 }

@@ -1,7 +1,7 @@
 interface Desire {
-    _id: string
+    _id: string,
     summary: string,
-    description: string
+    description: string,
     link: string,
     reason: string,
     type: boolean

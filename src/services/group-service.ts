@@ -13,7 +13,7 @@ export function saveGroup(group: Group): void {
 }
 
 export async function findGroups(): Promise<Group[]> {
-    return GroupSchema.find({}).then();
+    return GroupSchema.find({}).populate('users').then();
 }
 
 export async function findGroup(id: string): Promise<Group> {

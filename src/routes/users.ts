@@ -11,14 +11,19 @@ router.get('/', function(req, res) {
 });
 
 router.put('/', function(req, res) {
-  saveUser(req.body);
-  res.sendStatus(204);
-  res.end();
+  saveUser(req.body).then(user => {
+    res.send(user);
+  });
 });
 
 router.get('/:email', function(req, res) {
   findUser(req.params.email).then(user => {
-    res.send(user);
+    if(user) {
+      res.send(user);
+    } else {
+      res.sendStatus(404);
+      res.end();
+    }
   })
 });
 
