@@ -23,10 +23,13 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/groups', groupsRouter);
 
+const mongodbUser = process.env.WISHLIST_APP_DB_USER;
+const mongodbPassword = process.env.WISHLIST_APP_DB_PASS;
+const mongodbUlr = process.env.WISHLIST_APP_DB_URL;
+const mongodbProtocol = process.env.WISHLIST_APP_DB_PROTOCOL;
+
 mongoose.Promise = global.Promise;
-mongoose.connect("mongodb://localhost:27017/wishlist");
-
-
+mongoose.connect(`${mongodbProtocol}://${mongodbUser}:${mongodbPassword}@${mongodbUlr}/wishlist`, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
 
 /**
  * Get port from environment and store in Express.

@@ -9,7 +9,7 @@ export function saveGroup(group: Group): void {
         query._id = new mongoose.mongo.ObjectID().toString();
     }
 
-    GroupSchema.findOneAndUpdate(query, group, { useFindAndModify: true, upsert: true, }).exec();
+    GroupSchema.findOneAndUpdate(query, group, { useFindAndModify: false, upsert: true, }).exec();
 }
 
 export async function findGroups(): Promise<Group[]> {

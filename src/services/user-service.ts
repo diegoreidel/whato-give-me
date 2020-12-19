@@ -4,7 +4,7 @@ import DesireSchema from '../schemas/desire-schema';
 import UserSchema from '../schemas/user-schema';
 
 export async function saveUser(user: User): Promise<User> {
-    await UserSchema.findOneAndUpdate({ email: user.email }, user, { useFindAndModify: true, upsert: true });
+    await UserSchema.findOneAndUpdate({ email: user.email }, user, { useFindAndModify: false, upsert: true });
     return findUser(user.email);
 }
 
@@ -13,7 +13,7 @@ export async function findUsers(): Promise<User[]> {
 }
 
 export async function findUser(email: string): Promise<User> {
-    return await UserSchema.findOne({ email }).then();
+    return await UserSchema.findOne({ email }).populate('desires').then();
 }
 
 export async function saveDesire(email: string, des: Desire): Promise<User> {
