@@ -7,7 +7,6 @@ import path from 'path';
 import cors from 'cors';
 
 import groupsRouter from './routes/groups';
-import indexRouter from './routes/index';
 import usersRouter from './routes/users';
 
 const app = express();
@@ -19,7 +18,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
-app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/groups', groupsRouter);
 
