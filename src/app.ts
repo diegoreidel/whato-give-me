@@ -60,12 +60,10 @@ function normalizePort(val: string) {
   const portNumber: number = parseInt(val, 10);
 
   if (isNaN(portNumber)) {
-    // named pipe
     return val;
   }
 
   if (portNumber >= 0) {
-    // port number
     return portNumber;
   }
 
