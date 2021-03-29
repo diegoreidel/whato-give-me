@@ -1,7 +1,8 @@
 interface User {
-    _id: string,
+    _id?: string,
     email: string,
+    password: string,
     name: string,
-    description: string,
-    desires: Desire[]
+    description?: string,
+    desires?: Desire[]
 }

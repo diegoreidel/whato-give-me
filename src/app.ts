@@ -5,9 +5,14 @@ import logger from 'morgan';
 import mongoose from 'mongoose';
 import path from 'path';
 import cors from 'cors';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
 
 import groupsRouter from './routes/groups';
 import usersRouter from './routes/users';
+import authRouter from './routes/auth';
+import config from './config';
+import router from './routes/groups';
 
 const app = express();
 
@@ -20,14 +25,11 @@ app.use(cors());
 
 app.use('/users', usersRouter);
 app.use('/groups', groupsRouter);
+app.use('/auth', authRouter)
 
-const mongodbUser = process.env.WISHLIST_APP_DB_USER;
-const mongodbPassword = process.env.WISHLIST_APP_DB_PASS;
-const mongodbUlr = process.env.WISHLIST_APP_DB_URL;
-const mongodbProtocol = process.env.WISHLIST_APP_DB_PROTOCOL;
 
 mongoose.Promise = global.Promise;
-mongoose.connect(`${mongodbProtocol}://${mongodbUser}:${mongodbPassword}@${mongodbUlr}/wishlist`, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
+mongoose.connect(config.mongodb_url, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
 
 /**
  * Get port from environment and store in Express.
