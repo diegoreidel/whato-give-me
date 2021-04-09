@@ -1,10 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 
 const userSchema = new Schema({
-    email: {
-        type: String,
-        unique: true
-    },
+    email: { type: String, unique: true },
     desires: [
         {
             ref: 'Desire',
@@ -13,7 +10,7 @@ const userSchema = new Schema({
     ],
     name: String,
     description: String,
-    password: String
+    password: { type: String, select: false }
 })
 
 const UserSchema = mongoose.model('User', userSchema);

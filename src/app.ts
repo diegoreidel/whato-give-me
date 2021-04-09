@@ -5,14 +5,12 @@ import logger from 'morgan';
 import mongoose from 'mongoose';
 import path from 'path';
 import cors from 'cors';
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
 
 import groupsRouter from './routes/groups';
 import usersRouter from './routes/users';
 import authRouter from './routes/auth';
 import config from './config';
-import router from './routes/groups';
+import passport from './passport';
 
 const app = express();
 
@@ -23,8 +21,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
-app.use('/users', usersRouter);
-app.use('/groups', groupsRouter);
+app.use('/users', passport.authenticate('jwt', {session: false}), usersRouter);
+app.use('/groups', passport.authenticate('jwt', {session: false}), groupsRouter);
 app.use('/auth', authRouter)
 
 

@@ -3,9 +3,11 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import cors from 'cors';
 
+
 import corsOptions from '../cors-options';
-import { findUser, saveUser } from '../services/user-service';
+import { saveUser } from '../services/user-service';
 import config from '../config';
+import passport from '../passport';
 
 const router = express.Router();
 
@@ -19,7 +21,7 @@ router.put('/register', cors(corsOptions), (req, res) => {
         return saveUser(userData);
     })
     .then(user => {
-        const token = jwt.sign({ id: user._id }, config.secret, {
+        const token = jwt.sign({ email: user.email }, config.secret, {
             expiresIn: config.token_expiration
         });
         return res.status(200).send({ auth: true, token });
@@ -29,27 +31,20 @@ router.put('/register', cors(corsOptions), (req, res) => {
     });
 });
 
-router.post('/login', cors(corsOptions), (req, res) => {
+router.post('/login', cors(corsOptions), (req, res, next) => {
+    passport.authenticate('local', {session: false}, (err, user, info) => {
+        if (err || !user) {
+            return handle401(res);
+        }
 
-    if (!req.body.email || !req.body.password) return handle401(res);
-
-    findUser(req.body.email).then(user => {
-
-        if (!user) return handle401(res);
-
-        bcrypt.compare(req.body.password, user.password).then(password => {
-
-            if (!password) return handle401(res);
-
-            const token = jwt.sign({ id: user._id }, config.secret, {
-                expiresIn: config.token_expiration
-            });
-
-            res.status(200).send({ auth: true, token });
+       req.login(user, {session: false}, (error) => {
+           if (error) {
+               res.send(error);
+           }
+           const token = jwt.sign({ email: user.email }, config.secret, { expiresIn: config.token_expiration });
+           return res.json({user, token});
         });
-    }).catch(err => {
-        return res.status(500).send('Error on the server.');
-    });
+    })(req, res);
 });
 
 function handle401(res: any): any {

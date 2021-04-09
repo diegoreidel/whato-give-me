@@ -12,6 +12,10 @@ export async function findUsers(): Promise<User[]> {
     return await UserSchema.find({}).then();
 }
 
+export async function findUserIncludingPassword(email: string): Promise<User> {
+    return await UserSchema.findOne({ email }).select('+password').populate('desires').then();
+}
+
 export async function findUser(email: string): Promise<User> {
     return await UserSchema.findOne({ email }).populate('desires').then();
 }
